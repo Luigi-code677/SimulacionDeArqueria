@@ -1,8 +1,15 @@
+
+k = 47794729  # Valor k
+c = 11  # Valor c
+g = 20  # Valor g
+
+a = 1 + 2 * k
+m = 2 ** g
+semilla = 42
+
+
 class CongruencialLineal:
-    def _init_(self, a, c, m, seed):
-        self.a = a
-        self.c = c
-        self.m = m
+    def __init__(self, seed):
         self.xn = seed
 
     def generate_xn(self):
