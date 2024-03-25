@@ -1,24 +1,21 @@
-from Equipo import Equipo 
+import NumberGenerator
 from NumberGenerator import CongruencialLineal
 
-k = 47794729  # Valor k
-c = 11  # Valor c
-g = 20  # Valor g
 min_value = 1
 max_value = 3
 media = 35
 desv_estandar = 10
 experiencia = 10
 cantidad_jugadores = 5
+semilla = 99
 
-a = 1 + 2 * k
-m = 2 ** g
-semilla = 42
 
-generadorUniforme = CongruencialLineal(a, c, m, semilla)
+def cambiar_suerte_equipo(equipo):
+    global semilla
+    generador = CongruencialLineal(semilla)
+    for jugador in equipo.jugadores:
+        jugador.suerte = NumberGenerator.generar_numero_uniforme(min_value, max_value, generador)
 
-def generar_numero_uniforme(min_value, max_value):
-    return min_value + (max_value-min_value) * generadorUniforme.generate_number()
 
 class Juego:
     
@@ -34,10 +31,6 @@ class Juego:
     
     #def obtener_ganador_individual(self):
 
-    def cambiar_suerte_equipo(self, equipo):
-        for jugador in equipo.jugadores:
-            jugador.suerte = generar_numero_uniforme(min_value, max_value)
-
     def cambiar_suerte(self):
-        self.cambiar_suerte_equipo(self.equipoa)
-        self.cambiar_suerte_equipo(self.equipob)
+        cambiar_suerte_equipo(self.equipoa)
+        cambiar_suerte_equipo(self.equipob)

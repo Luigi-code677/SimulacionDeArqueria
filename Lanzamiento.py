@@ -1,4 +1,4 @@
 class Lanzamiento:
-    def __init__(self, tipo):
+    def __init__(self, tipo, puntaje):
         self.tipo = tipo
-        self.puntaje = 0
+        self.puntaje = puntaje
