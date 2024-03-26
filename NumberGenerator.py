@@ -20,7 +20,7 @@ class CongruencialLineal:
         self.semilla = semilla
         self.k = 477947
         self.c = 3
-        self.g = 20
+        self.g = 30
         self.xn = semilla
         self.a = 1 + 2 * self.k
         self.m = 2 ** self.g

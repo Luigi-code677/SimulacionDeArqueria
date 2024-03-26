@@ -1,9 +1,7 @@
 import time
-
 import Equipo
 import NumberGenerator
 from Jugador import Jugador
-from NumberGenerator import CongruencialLineal
 
 min_value = 1
 max_value = 3
@@ -11,12 +9,9 @@ media = 35
 desv_estandar = 10
 experiencia = 10
 cantidad_jugadores = 5
-semilla = time.time()
-generador = CongruencialLineal(semilla)
 
 
-def cambiar_suerte_equipo(equipo):
-    global generador
+def cambiar_suerte_equipo(equipo, generador):
     for jugador in equipo.jugadores:
         suerte = NumberGenerator.generar_numero_uniforme(min_value, max_value, generador)
         jugador.suerte = suerte
@@ -28,11 +23,12 @@ def puntajes_total_equipo(equipo):
 
 class Juego:
 
-    def __init__(self, equipoa: Equipo, equipob: Equipo):
+    def __init__(self, equipoa: Equipo, equipob: Equipo, generador):
         self.equipoa: Equipo = equipoa
         self.equipob: Equipo = equipob
         self.ganadores_ronda: [Jugador] = []
         self.equipo_ganador_ronda: [Equipo] = []
+        self.generador = generador
 
     def obtener_equipo_ganador(self) -> Equipo:
         puntaje_equipo_a = self.equipoa.obtener_puntaje_total_equipo()
@@ -48,8 +44,8 @@ class Juego:
                                                                                          puntaje_equipo_b) else None
 
     def cambiar_suerte(self):
-        cambiar_suerte_equipo(self.equipoa)
-        cambiar_suerte_equipo(self.equipob)
+        cambiar_suerte_equipo(self.equipoa, self.generador)
+        cambiar_suerte_equipo(self.equipob, self.generador)
 
     def jugador_mas_suertudo_juego(self):
         suertudo = None

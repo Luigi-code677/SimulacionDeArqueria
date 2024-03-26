@@ -1,10 +1,7 @@
 from Lanzamiento import Lanzamiento
-from NumberGenerator import CongruencialLineal
-
-generador = CongruencialLineal(40)
 
 
-def simular_puntaje(genero):
+def simular_puntaje(genero, generador):
     numero = generador.generate_number()
     puntaje = 0
     if genero == "Hombre":
@@ -34,7 +31,7 @@ def realizar_lanzamiento(tipo, puntaje, lanzamientos):
 
 
 class Jugador:
-    def __init__(self, nombre, genero, suerte, resistencia, experiencia):
+    def __init__(self, nombre, genero, suerte, resistencia, experiencia, generador):
         self.nombre = nombre
         self.genero = genero
         self.suerte = suerte
@@ -46,6 +43,7 @@ class Jugador:
         self.rondas_extra = []
         self.contador_suerte = 0
         self.contador_experiencia_resistencia = 0
+        self.generador = generador
 
     def obtener_puntaje_ronda_equipo(self, numero_ronda):
         ronda = self.rondas[numero_ronda]
@@ -77,7 +75,7 @@ class Jugador:
         resistencia_actual = self.resistencia
         lanzamientos = []
         while self.resistencia >= 5:
-            realizar_lanzamiento("Normal", simular_puntaje(self.genero), lanzamientos)
+            realizar_lanzamiento("Normal", simular_puntaje(self.genero, self.generador), lanzamientos)
             if self.experiencia >= self.experiencia_inicial + 9 and self.contador_experiencia_resistencia < 2:
                 self.resistencia -= 1
                 self.contador_experiencia_resistencia += 1
@@ -88,13 +86,13 @@ class Jugador:
         return len(self.rondas)-1
 
     def lanzamiento_extra_equipo(self, ronda):
-        realizar_lanzamiento("Equipo", simular_puntaje(self.genero), self.rondas[ronda])
+        realizar_lanzamiento("Equipo", simular_puntaje(self.genero, self.generador), self.rondas[ronda])
         self.contador_suerte += 1
 
     def lanzamiento_extra_individual(self, ronda):
-        realizar_lanzamiento("Individual", simular_puntaje(self.genero), self.rondas[ronda])
+        realizar_lanzamiento("Individual", simular_puntaje(self.genero, self.generador), self.rondas[ronda])
 
     def recuperar_puntos(self, resistencia_anterior):
-        numero = generador.generate_number()
+        numero = self.generador.generate_number()
         puntos = 2 if numero <= 0.5 else 1
         self.resistencia = resistencia_anterior - puntos
