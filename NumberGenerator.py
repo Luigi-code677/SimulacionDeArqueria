@@ -18,9 +18,9 @@ def generar_numero_normal(media, desv_estandar, generador_normal):
 class CongruencialLineal:
     def __init__(self, semilla):
         self.semilla = semilla
-        self.k = 4779473189
-        self.c = 17
-        self.g = 25
+        self.k = 477947
+        self.c = 3
+        self.g = 20
         self.xn = semilla
         self.a = 1 + 2 * self.k
         self.m = 2 ** self.g
